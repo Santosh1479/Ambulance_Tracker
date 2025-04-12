@@ -4,11 +4,16 @@ const cookieParser = require('cookie-parser');
 const connecttoDB = require('./db/db');
 const AmbulanceDriverRoutes = require('./routes/ambulancedriver.routes');
 const PoliceRoutes = require('./routes/police.routes');
+const hospitalRoutes = require('./routes/Hospitals.routes');
 
 connecttoDB();
 
 const app = express();
-
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,5 +26,6 @@ app.get('/', (req, res) => {
 
 app.use('/ambulancedriver', AmbulanceDriverRoutes);
 app.use('/poilce',PoliceRoutes );
+app.use('/hospitals', hospitalRoutes);
 
 module.exports = app;
