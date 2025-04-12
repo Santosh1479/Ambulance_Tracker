@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const AmbulanceSignup = () => {
+const PoliceSignup = () => {
   const [formData, setFormData] = useState({
     name: "",
-    dob: "",
-    number: "",
-    vehicleNumber: "",
-    hospitalName: "",
-    driverId: "",
+    mobileNumber: "",
     email: "",
     password: "",
+    badgeNumber: "",
+    location: {
+      longitude: "",
+      latitude: "",
+    },
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "longitude" || name === "latitude") {
+      setFormData({
+        ...formData,
+        location: { ...formData.location, [name]: value },
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/register`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/police/register`, formData);
       alert(res.data.message);
     } catch (error) {
       console.error(error);
@@ -30,10 +40,10 @@ const AmbulanceSignup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
-          Register Ambulance Driver
+        <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
+          Police Officer Signup
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -47,47 +57,12 @@ const AmbulanceSignup = () => {
             className="input"
           />
           <input
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            required
-            className="input"
-          />
-          <input
             type="number"
-            name="number"
-            value={formData.number}
+            name="mobileNumber"
+            value={formData.mobileNumber}
             onChange={handleChange}
             required
-            placeholder="Phone Number"
-            className="input"
-          />
-          <input
-            type="text"
-            name="vehicleNumber"
-            value={formData.vehicleNumber}
-            onChange={handleChange}
-            required
-            placeholder="Vehicle Number"
-            className="input"
-          />
-          <input
-            type="text"
-            name="hospitalName"
-            value={formData.hospitalName}
-            onChange={handleChange}
-            required
-            placeholder="Hospital Name"
-            className="input"
-          />
-          <input
-            type="text"
-            name="driverId"
-            value={formData.driverId}
-            onChange={handleChange}
-            required
-            placeholder="Driver ID"
+            placeholder="Mobile Number"
             className="input"
           />
           <input
@@ -108,12 +83,39 @@ const AmbulanceSignup = () => {
             placeholder="Password"
             className="input"
           />
+          <input
+            type="text"
+            name="badgeNumber"
+            value={formData.badgeNumber}
+            onChange={handleChange}
+            required
+            placeholder="Badge Number"
+            className="input"
+          />
+          <input
+            type="number"
+            name="longitude"
+            value={formData.location.longitude}
+            onChange={handleChange}
+            required
+            placeholder="Longitude"
+            className="input"
+          />
+          <input
+            type="number"
+            name="latitude"
+            value={formData.location.latitude}
+            onChange={handleChange}
+            required
+            placeholder="Latitude"
+            className="input"
+          />
 
           <button
             type="submit"
-            className="mt-4 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+            className="mt-4 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
           >
-            Register
+            Signup
           </button>
         </form>
       </div>
@@ -121,4 +123,4 @@ const AmbulanceSignup = () => {
   );
 };
 
-export default AmbulanceSignup;
+export default PoliceSignup;

@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function AmbulanceLogin() {
+const PoliceLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate(); // Use navigate for routing
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,21 +18,21 @@ export default function AmbulanceLogin() {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/login`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/police/login`, formData);
       localStorage.setItem("token", res.data.token);
-      alert(res.data.message);
-      navigate("/start-trip"); // Navigate to the start-trip page
+      alert("Login successful");
+      navigate("/police-home"); // Redirect to the police dashboard
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Something went wrong");
+      alert(error.response?.data?.message || "Invalid email or password");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
-          Ambulance Driver Login
+        <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
+          Police Officer Login
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -57,7 +57,7 @@ export default function AmbulanceLogin() {
 
           <button
             type="submit"
-            className="mt-4 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+            className="mt-4 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
           >
             Login
           </button>
@@ -65,4 +65,6 @@ export default function AmbulanceLogin() {
       </div>
     </div>
   );
-}
+};
+
+export default PoliceLogin;
