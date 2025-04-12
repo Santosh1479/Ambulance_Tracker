@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const connecttoDB = require('./db/db');
 const AmbulanceDriverRoutes = require('./routes/ambulancedriver.routes');
 const PoliceRoutes = require('./routes/police.routes');
+const TripRoutes = require('./routes/trip.routes');
 
 connecttoDB();
 
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 
 app.use('/ambulancedriver', AmbulanceDriverRoutes);
 app.use('/poilce',PoliceRoutes );
+app.use('trip',TripRoutes)
 
 module.exports = app;
