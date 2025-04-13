@@ -15,11 +15,13 @@ const AmbulanceDriverSchema = new mongoose.Schema({
   number: {
     type: Number,
     required: true,
+    unique: true,
     minlength: [10, "Phone number must be valid"],
   },
   vehicleNumber: {
     type: String,
     required: true,
+    unique: true,
   },
   hospitalName: {
     type: String,

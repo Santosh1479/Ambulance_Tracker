@@ -1,4 +1,3 @@
-// filepath: c:\Users\Santosh\Desktop\New folder (2)\Backend\db\db.js
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 

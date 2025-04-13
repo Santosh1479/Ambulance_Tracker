@@ -46,6 +46,10 @@ const tripSchema = new mongoose.Schema({
     enum: ['ongoing', 'completed'],
     default: 'ongoing',
   },
+  date: {
+    type: String, // Store date in 'YYYY-MM-DD' format
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

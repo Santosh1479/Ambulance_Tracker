@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 export default function AmbulanceLogin() {
@@ -8,7 +8,7 @@ export default function AmbulanceLogin() {
     password: "",
   });
 
-  const navigate = useNavigate(); // Use navigate for routing
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,12 +16,13 @@ export default function AmbulanceLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/login`, formData);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userID", res.data.userID); // Store user ID
       alert(res.data.message);
-      navigate("/start-trip"); // Navigate to the start-trip page
+      navigate("/ambulance-home"); // Navigate to ambulance home
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Something went wrong");
@@ -62,6 +63,15 @@ export default function AmbulanceLogin() {
             Login
           </button>
         </form>
+
+        <div className="mt-4 text-center">
+          <p>
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-blue-600 hover:underline">
+              Signup
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

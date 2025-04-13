@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const PoliceSignup = () => {
   const [formData, setFormData] = useState({
@@ -26,13 +28,16 @@ const PoliceSignup = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/police/register`, formData);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userID", res.data.userID); // Store user ID
       alert(res.data.message);
+      navigate("/police-home"); // Navigate to police home
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Something went wrong");

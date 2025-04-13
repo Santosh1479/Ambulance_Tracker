@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const PoliceLogin = () => {
   const [formData, setFormData] = useState({
@@ -16,12 +16,13 @@ const PoliceLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/police/login`, formData);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userID", res.data.userID); // Store user ID
       alert("Login successful");
-      navigate("/police-home"); // Redirect to the police dashboard
+      navigate("/police-home"); // Navigate to police home
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Invalid email or password");
@@ -62,6 +63,15 @@ const PoliceLogin = () => {
             Login
           </button>
         </form>
+
+        <div className="mt-4 text-center">
+          <p>
+            Don't have an account?{" "}
+            <Link to="/police-signup" className="text-green-600 hover:underline">
+              Signup
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

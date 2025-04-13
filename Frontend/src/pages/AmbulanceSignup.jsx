@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AmbulanceSignup = () => {
   const [formData, setFormData] = useState({
@@ -13,16 +14,20 @@ const AmbulanceSignup = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/register`, formData);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userID", res.data.userID); // Store user ID
       alert(res.data.message);
+      navigate("/ambulance-home"); // Navigate to ambulance home
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Something went wrong");

@@ -5,9 +5,22 @@ module.exports.createPolice = async ({ name, mobileNumber, email, password, badg
     throw new Error("All fields are required");
   }
 
-  const existingPolice = await Police.findOne({ email });
-  if (existingPolice) {
+  // Check if the email already exists
+  const existingEmail = await Police.findOne({ email });
+  if (existingEmail) {
     throw new Error("Email already exists");
+  }
+
+  // Check if the mobile number already exists
+  const existingMobileNumber = await Police.findOne({ mobileNumber });
+  if (existingMobileNumber) {
+    throw new Error("Mobile number already exists");
+  }
+
+  // Check if the badge number already exists
+  const existingBadgeNumber = await Police.findOne({ badgeNumber });
+  if (existingBadgeNumber) {
+    throw new Error("Badge number already exists");
   }
 
   const hashedPassword = await Police.hashPassword(password);

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Start = () => {
   return (
@@ -16,14 +16,14 @@ const Start = () => {
             Police Login
           </button>
         </Link>
-        <Link to="/user">
+        <Link to="/user-home">
           <button className="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-xl text-lg">
             User
           </button>
         </Link>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default Start
+export default Start;

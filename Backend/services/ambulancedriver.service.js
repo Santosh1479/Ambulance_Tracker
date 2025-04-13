@@ -6,9 +6,21 @@ module.exports.createAmbulanceDriver = async ({ name, dob, number, vehicleNumber
   }
 
   // Check if the email already exists
-  const existingAmbulanceDriver = await AmbulanceDriverModel.findOne({ email });
-  if (existingAmbulanceDriver) {
+  const existingEmail = await AmbulanceDriverModel.findOne({ email });
+  if (existingEmail) {
     throw new Error('Email already exists');
+  }
+
+  // Check if the mobile number already exists
+  const existingNumber = await AmbulanceDriverModel.findOne({ number });
+  if (existingNumber) {
+    throw new Error('Mobile number already exists');
+  }
+
+  // Check if the vehicle number already exists
+  const existingVehicleNumber = await AmbulanceDriverModel.findOne({ vehicleNumber });
+  if (existingVehicleNumber) {
+    throw new Error('Vehicle number already exists');
   }
 
   const hashedPassword = await AmbulanceDriverModel.hashPassword(password);

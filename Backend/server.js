@@ -1,29 +1,34 @@
 const http = require('http');
-const socketIO = require('socket.io');
 const app = require('./app'); // Import the app from app.js
+const { Server } = require('socket.io');
 
 const server = http.createServer(app);
-const io = socketIO(server, {
+const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: 'http://localhost:5173', // Frontend URL
+    methods: ['GET', 'POST'],
   },
 });
 
-// Attach `io` to the app for use in routes or controllers
-app.set('io', io);
-
-// WebSocket connection handling
+// Socket.IO logic
 io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
+  console.log('A user connected');
 
-  socket.on('locationUpdate', (data) => {
-    console.log('Location update received:', data);
-    io.emit('locationBroadcast', data); // Broadcast location updates to all clients
+  // Listen for ambulance location updates
+  socket.on('ambulanceLocation', (data) => {
+    const { tripId, location } = data;
+    // Broadcast the location to all clients in the trip room
+    io.to(`trip-${tripId}`).emit('ambulanceLocationUpdate', location);
+  });
+
+  // Join a trip room
+  socket.on('joinTrip', (tripId) => {
+    socket.join(`trip-${tripId}`);
+    console.log(`User joined trip-${tripId}`);
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+    console.log('A user disconnected');
   });
 });
 

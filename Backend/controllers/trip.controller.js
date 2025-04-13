@@ -5,16 +5,18 @@ const startTrip = async (req, res) => {
   try {
     const { driver_name, vehicle_number, start_location } = req.body;
 
+    // Get the current date in 'YYYY-MM-DD' format
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    // Save the trip in the database
     const newTrip = await Trip.create({
       driver_name,
       vehicle_number,
       start_location,
       start_time: new Date(),
       status: "ongoing",
+      date: currentDate, // Save the date
     });
-
-    const io = req.app.get("io");
-    io.emit("tripStarted", { trip: newTrip });
 
     res.status(201).json({ message: "Trip started successfully", trip: newTrip });
   } catch (err) {
