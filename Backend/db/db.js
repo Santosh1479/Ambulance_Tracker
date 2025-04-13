@@ -1,12 +1,16 @@
+// filepath: c:\Users\Santosh\Desktop\New folder (2)\Backend\db\db.js
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+
+// Load environment variables
+dotenv.config();
 
 function connecttoDB() {
     mongoose.connect(`${process.env.MONGO_URI}/Ambulance_Tracker`, {
     }).then(() => {
         console.log("Connected to MongoDB");
     }).catch(err => {
-        console.error("Error connecting to MongoDB:", err);
+        console.error("Error connecting to MongoDB:", err.message);
     });
 }
 

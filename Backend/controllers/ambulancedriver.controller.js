@@ -11,7 +11,8 @@ module.exports.registerAmbulanceDriver = async (req, res) => {
 
   try {
     const AmbulanceDriver = await AmbulanceDriverService.createAmbulanceDriver({ name, dob, number, vehicleNumber, hospitalName, driverId, email, password });
-    res.status(201).json({ message: "AmbulanceDriver registered successfully", AmbulanceDriver });
+    const token = AmbulanceDriver.generateAuthToken(); // Generate token after successful registration
+    res.status(201).json({ message: "AmbulanceDriver registered successfully", token, AmbulanceDriver });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -27,8 +28,8 @@ module.exports.loginAmbulanceDriver = async (req, res) => {
 
   try {
     const AmbulanceDriver = await AmbulanceDriverService.loginAmbulanceDriver(email, password);
-    const token = AmbulanceDriver.generateAuthToken();
-    res.status(200).json({ token, AmbulanceDriver });
+    const token = AmbulanceDriver.generateAuthToken(); // Generate token after successful login
+    res.status(200).json({ message: "Login successful", token, AmbulanceDriver });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

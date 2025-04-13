@@ -23,9 +23,4 @@ router.post('/login', [
 router.get('/profile', authAmbulanceDriver, AmbulanceDriverController.getAmbulanceDriverProfile);
 router.post('/logout', authAmbulanceDriver, AmbulanceDriverController.logoutAmbulanceDriver);
 
-// 🚑 Trip routes
-router.post('/start-trip', startTrip);
-router.post('/end-trip', endTrip);
-router.get('/trips-by-date', authAmbulanceDriver, AmbulanceDriverController.getTripsByDate);
-
 module.exports = router;
