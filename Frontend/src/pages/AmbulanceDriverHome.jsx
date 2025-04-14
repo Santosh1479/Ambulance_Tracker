@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDriverContext } from "../context/DriverContext";
 
 const AmbulanceDriverHome = () => {
   const navigate = useNavigate();
@@ -81,6 +82,9 @@ const AmbulanceDriverHome = () => {
         `${import.meta.env.VITE_BASE_URL}/trips/create-trip`,
         {
           destinationId: selectedDestination.id,
+          driverName: driverDetails.name,
+          vehicleNumber: driverDetails.vehicleNumber,
+          hospitalName: driverDetails.hospitalName,
         },
         {
           headers: {
@@ -91,7 +95,7 @@ const AmbulanceDriverHome = () => {
   
       const tripId = res.data._id; // Assuming the response contains the trip ID
       const destinationCoords = res.data.destinationCoords; // Assuming backend sends destination coordinates
-      const driverCoords = res.data.driverCoords; // Assuming backend sends driver's initial coordinates
+      const driverCoords = res.data.driverCoords;
   
       navigate(`/trip/${tripId}`, {
         state: { driverCoords, destinationCoords },
@@ -104,9 +108,7 @@ const AmbulanceDriverHome = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">
-        Welcome to Ambulance Driver Dashboard
-      </h1>
+      <h1>Welcome, {driverDetails?.name}</h1>
       <button
         onClick={handleLogout}
         className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl text-lg"

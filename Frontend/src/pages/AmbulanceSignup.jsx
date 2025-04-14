@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDriverContext } from "../context/DriverContext";
 
 const AmbulanceSignup = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const AmbulanceSignup = () => {
   });
 
   const navigate = useNavigate();
+  const { setDriverDetails } = useDriverContext();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -25,7 +27,8 @@ const AmbulanceSignup = () => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/register`, formData);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userID", res.data.userID); // Store user ID
+      localStorage.setItem("userID", res.data.userID); 
+      setDriverDetails({ userID, name, vehicleNumber, hospitalName });// Store user ID
       alert(res.data.message);
       navigate("/ambulance-home"); // Navigate to ambulance home
     } catch (error) {
