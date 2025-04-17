@@ -43,6 +43,10 @@ const AmbulanceDriverSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
+  verified: {
+    type: Boolean,
+    default: false, // Default to false when registering
+  },
 });
 
 AmbulanceDriverSchema.methods.generateAuthToken = function () {

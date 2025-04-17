@@ -28,3 +28,21 @@ module.exports.getAllHospitals = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports.approveAmbulanceDriver = async (req, res) => {
+  const { driverId } = req.params;
+
+  try {
+    const driver = await AmbulanceDriverService.getAmbulanceDriverById(driverId);
+    if (!driver) {
+      return res.status(404).json({ message: 'AmbulanceDriver not found' });
+    }
+
+    driver.verified = true; // Approve the driver
+    await driver.save();
+
+    res.status(200).json({ message: 'AmbulanceDriver approved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

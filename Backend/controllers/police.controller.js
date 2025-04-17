@@ -53,3 +53,21 @@ module.exports.logoutPolice = async (req, res) => {
     res.status(500).json({ message: "Failed to log out" });
   }
 };
+
+module.exports.approvePolice = async (req, res) => {
+  const { policeId } = req.params;
+
+  try {
+    const police = await policeService.getPoliceById(policeId);
+    if (!police) {
+      return res.status(404).json({ message: 'Police officer not found' });
+    }
+
+    police.verified = true; // Approve the police officer
+    await police.save();
+
+    res.status(200).json({ message: 'Police officer approved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

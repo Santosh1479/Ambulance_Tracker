@@ -11,4 +11,6 @@ router.put("/update/:id", hospitalController.updateHospital);
 // Route to fetch all hospitals
 router.get("/all", hospitalController.getAllHospitals);
 
+router.patch('/approve/:driverId', authHospitalPersonnel, hospitalController.approveAmbulanceDriver);
+
 module.exports = router;

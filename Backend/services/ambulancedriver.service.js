@@ -34,6 +34,7 @@ module.exports.createAmbulanceDriver = async ({ name, dob, number, vehicleNumber
     driverId,
     email,
     password: hashedPassword,
+    verified: false,
   });
 
   return AmbulanceDriver;
@@ -43,6 +44,9 @@ module.exports.loginAmbulanceDriver = async (email, password) => {
   const AmbulanceDriver = await AmbulanceDriverModel.findOne({ email }).select('+password');
   if (!AmbulanceDriver) {
     throw new Error('Invalid email or password');
+  }
+  if (!AmbulanceDriver.verified) {
+    throw new Error('Account not verified. Please wait for approval.');
   }
 
   const isMatch = await AmbulanceDriver.comparePassword(password);

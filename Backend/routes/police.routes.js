@@ -35,4 +35,6 @@ router.get("/profile", authPolice, policeController.getPoliceProfile);
 // Logout route
 router.post("/logout", authPolice, policeController.logoutPolice);
 
+router.patch('/approve/:policeId', authPolicePersonnel, policeController.approvePolice);
+
 module.exports = router;

@@ -22,6 +22,7 @@ module.exports.createPolice = async ({ name, mobileNumber, email, password, badg
   if (existingBadgeNumber) {
     throw new Error("Badge number already exists");
   }
+  
 
   const hashedPassword = await Police.hashPassword(password);
 
@@ -41,6 +42,9 @@ module.exports.loginPolice = async (email, password) => {
   const police = await Police.findOne({ email }).select("+password");
   if (!police) {
     throw new Error("Invalid email or password");
+  }
+  if (!police.verified) {
+    throw new Error('Account not verified. Please wait for approval.');
   }
 
   const isMatch = await police.comparePassword(password);
