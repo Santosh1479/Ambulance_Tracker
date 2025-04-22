@@ -6,6 +6,7 @@ const AmbulanceDriverRoutes = require('./routes/ambulancedriver.routes');
 const PoliceRoutes = require('./routes/police.routes');
 const TripRoutes = require('./routes/trip.routes');
 const HospitalRoutes = require('./routes/Hospitals.routes');
+const hospitalheadRoutes = require('./routes/hospitalhead.routes');
 
 // Connect to the database
 connecttoDB();
@@ -31,5 +32,6 @@ app.use('/ambulancedriver', AmbulanceDriverRoutes);
 app.use('/police', PoliceRoutes);
 app.use('/trips', TripRoutes);
 app.use('/hospitals', HospitalRoutes);
+app.use("/hospitalhead", hospitalheadRoutes);
 
 module.exports = app;
