@@ -27,8 +27,12 @@ const AmbulanceSignup = () => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/ambulancedriver/register`, formData);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userID", res.data.userID); 
-      setDriverDetails({ userID, name, vehicleNumber, hospitalName });// Store user ID
+
+      // Extract details from response
+      const { _id: userID, name, vehicleNumber, hospitalName } = res.data.AmbulanceDriver;
+      localStorage.setItem("userID", userID); // Correct usage
+
+      setDriverDetails({ userID, name, vehicleNumber, hospitalName }); // Store user details
       alert(res.data.message);
       navigate("/ambulance-home"); // Navigate to ambulance home
     } catch (error) {

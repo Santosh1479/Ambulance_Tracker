@@ -9,6 +9,7 @@ const AmbulanceDriverHome = () => {
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [allDestinations, setAllDestinations] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
+  const { driverDetails, setDriverDetails } = useDriverContext();
 
   // Fetch hospital data from the backend
   useEffect(() => {

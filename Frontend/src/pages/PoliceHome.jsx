@@ -13,7 +13,7 @@ const PoliceHome = () => {
         },
       });
       localStorage.removeItem("token");
-      localStorage.removeItem("id");
+      localStorage.removeItem("userID");
       alert("Logged out successfully");
       navigate("/police-login");
     } catch (error) {

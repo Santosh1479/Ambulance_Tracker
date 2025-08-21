@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const hospitalController = require("../controllers/Hospitals.controller");
+const { authHospitalPersonnel } = require("../middlewares/auth.middleware");
 
 // Route to create a new hospital
 router.post("/create", hospitalController.createHospital);

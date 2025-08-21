@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 
 const PoliceSignup = () => {
   const [formData, setFormData] = useState({
@@ -16,9 +15,27 @@ const PoliceSignup = () => {
     },
   });
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData((prev) => ({
+            ...prev,
+            location: {
+              longitude: position.coords.longitude,
+              latitude: position.coords.latitude,
+            },
+          }));
+        },
+        (error) => {
+          console.error("Error fetching location:", error);
+        }
+      );
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "longitude" || name === "latitude") {
       setFormData({
         ...formData,
@@ -28,16 +45,17 @@ const PoliceSignup = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/police/register`, formData);
+      console.log(res.data);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userID", res.data.userID); // Store user ID
+      localStorage.setItem("userID", res.data.police._id);
       alert(res.data.message);
-      navigate("/police-home"); // Navigate to police home
+      navigate("/police-home");
     } catch (error) {
       console.error(error);
       alert(error.response?.data?.message || "Something went wrong");
@@ -50,7 +68,6 @@ const PoliceSignup = () => {
         <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
           Police Officer Signup
         </h2>
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
@@ -105,6 +122,7 @@ const PoliceSignup = () => {
             required
             placeholder="Longitude"
             className="input"
+            readOnly
           />
           <input
             type="number"
@@ -114,8 +132,8 @@ const PoliceSignup = () => {
             required
             placeholder="Latitude"
             className="input"
+            readOnly
           />
-
           <button
             type="submit"
             className="mt-4 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300"

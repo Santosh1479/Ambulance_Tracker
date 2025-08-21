@@ -11,7 +11,8 @@ module.exports.registerPolice = async (req, res) => {
 
   try {
     const police = await policeService.createPolice({ name, mobileNumber, email, password, badgeNumber, location });
-    res.status(201).json({ message: "Police officer registered successfully", police });
+    const token = police.generateAuthToken(); // Generate token after registration
+    res.status(201).json({ message: "Police officer registered successfully", token, police });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
