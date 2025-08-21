@@ -10,7 +10,7 @@ import PoliceProtectWrapper from "./pages/policeProtectWrapper";
 import AmbulanceHome from "./pages/AmbulanceDriverHome";
 import PoliceHome from "./pages/PoliceHome";
 import Navbar from "./components/Navbar";
-import TripStart from "./pages/TripStart";
+import TripPage from "./pages/TripPage";
 import UserHome from "./pages/UserHome";
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/signup" element={<AmbulanceSignup />} />
         <Route path="/police-login" element={<PoliceLogin />} />
         <Route path="/police-signup" element={<PoliceSignup />} />
-        <Route path="/trip" element={<TripStart />} />
+        <Route path="/trip/:id" element={<TripPage />} />
         <Route path="/user-home" element={<UserHome />} />
         {/* Protected Routes */}
         <Route

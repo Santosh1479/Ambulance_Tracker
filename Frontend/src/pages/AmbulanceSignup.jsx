@@ -30,7 +30,7 @@ const AmbulanceSignup = () => {
 
       // Extract details from response
       const { _id: userID, name, vehicleNumber, hospitalName } = res.data.AmbulanceDriver;
-      localStorage.setItem("userID", userID); // Correct usage
+      localStorage.setItem("driverDetails", JSON.stringify({ userID, name, vehicleNumber, hospitalName }));
 
       setDriverDetails({ userID, name, vehicleNumber, hospitalName }); // Store user details
       alert(res.data.message);

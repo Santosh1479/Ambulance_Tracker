@@ -6,8 +6,8 @@ import { useDriverContext } from "../context/DriverContext";
 
 export default function AmbulanceLogin() {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "test@driver.com",
+    password: "testpass",
   });
 
   const navigate = useNavigate();
@@ -26,9 +26,9 @@ export default function AmbulanceLogin() {
       // Store token in localStorage (only token)
       localStorage.setItem("token", token);
 
-      // Store other details in context
+      // After successful login/signup
       setDriverDetails({ userID, name, vehicleNumber, hospitalName });
-
+      localStorage.setItem("driverDetails", JSON.stringify({ userID, name, vehicleNumber, hospitalName }));
       alert(res.data.message);
       navigate("/ambulance-home");
     } catch (error) {
