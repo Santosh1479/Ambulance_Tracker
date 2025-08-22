@@ -106,7 +106,7 @@ const AmbulanceDriverHome = () => {
         }
       );
       console.log("Ride started successfully:", res.data);
-      const tripId = res.data.trip._id; // Use trip._id from response
+      const tripId = res.data.trip._id;
 
       navigate(`/trip/${tripId}`);
     } catch (error) {
